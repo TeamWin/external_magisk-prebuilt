@@ -1,39 +1,23 @@
 LOCAL_PATH := $(call my-dir)
 
-# magiskboot
-include $(CLEAR_VARS)
-ifeq ($(TW_INCLUDE_REPACKTOOLS), true)
-    ifneq (,$(filter $(TARGET_ARCH), x86 x86_64))
-        MAGISKBOOT_TARGET := magiskboot_x86
-    else
-        MAGISKBOOT_TARGET := magiskboot_arm
-    endif
-    #magiskboot prebuilt
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := $(MAGISKBOOT_TARGET)
-    LOCAL_MODULE_STEM := magiskboot
-    LOCAL_MODULE_TAGS := eng
-    LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-endif
+# Some handy paths
+MAGISK_ROOT_PATH := $(LOCAL_PATH)
+EXT_PATH := $(LOCAL_PATH)/external
+SE_PATH := $(EXT_PATH)/selinux
+LIBSELINUX := $(SE_PATH)/libselinux/include
+LIBSEPOL := $(SE_PATH)/libsepol/include $(SE_PATH)/libsepol/cil/include
+LIBLZMA := $(EXT_PATH)/xz/src/liblzma/api
+LIBLZ4 := $(EXT_PATH)/lz4/lib
+LIBBZ2 := $(EXT_PATH)/bzip2
+LIBFDT := $(EXT_PATH)/dtc/libfdt
+LIBNANOPB := $(EXT_PATH)/nanopb
+LIBSYSTEMPROPERTIES := $(LOCAL_PATH)/systemproperties/include
+LIBUTILS := $(LOCAL_PATH)/utils/include
+LIBMINCRYPT := $(EXT_PATH)/mincrypt/include
+LIBXZ := $(EXT_PATH)/xz-embedded
+LIBPCRE2 := $(EXT_PATH)/pcre/include
 
-# resetprop
-include $(CLEAR_VARS)
-ifeq ($(TW_INCLUDE_RESETPROP), true)
-    ifneq (,$(filter $(TARGET_ARCH), x86 x86_64))
-        RESETPROP_TARGET := resetprop_x86
-    else
-        RESETPROP_TARGET := resetprop_arm
-    endif
-    #resetprop prebuilt
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := $(RESETPROP_TARGET)
-    LOCAL_MODULE_STEM := resetprop
-    LOCAL_MODULE_TAGS := eng
-    LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-endif
+MAGISK_CFLAGS += -D__MVSTR="TWRP-dynamic" -D__MCODE="ed58cf9"
+MAGISK_CFLAGS += -Wno-unused-parameter -std=c++17 -Wno-sign-compare
+
+include $(call all-subdir-makefiles)
