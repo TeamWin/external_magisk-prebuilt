@@ -18,6 +18,6 @@ LIBXZ := $(EXT_PATH)/xz-embedded
 LIBPCRE2 := $(EXT_PATH)/pcre/include
 
 MAGISK_CFLAGS += -D__MVSTR="TWRP-dynamic" -D__MCODE="ed58cf9"
-MAGISK_CFLAGS += -Wno-unused-parameter -std=c++17 -Wno-sign-compare
+MAGISK_CFLAGS += -Wno-unused-parameter -std=c++14 -Wno-sign-compare
 
 include $(call all-subdir-makefiles)

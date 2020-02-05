@@ -190,7 +190,8 @@ void clone_dir(int src, int dest, bool overwrite) {
 	while ((entry = xreaddir(dir))) {
 		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
 			continue;
-		if (struct stat st; !overwrite &&
+		struct stat st;
+		if (!overwrite &&
 				fstatat(dest, entry->d_name, &st, AT_SYMLINK_NOFOLLOW) == 0)
 			continue;
 		getattrat(src, entry->d_name, &a);

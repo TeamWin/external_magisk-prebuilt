@@ -49,13 +49,13 @@ void parse_mnt(const char *file, const std::function<bool(mntent*)> &fn);
 
 template <typename T>
 void full_read(const char *filename, T &buf, size_t &size) {
-	static_assert(std::is_pointer<T>::value);
+	static_assert(std::is_pointer<T>::value, "msg");
 	full_read(filename, reinterpret_cast<void**>(&buf), &size);
 }
 
 template <typename T>
 void fd_full_read(int fd, T &buf, size_t &size) {
-	static_assert(std::is_pointer<T>::value);
+	static_assert(std::is_pointer<T>::value, "msg");
 	fd_full_read(fd, reinterpret_cast<void**>(&buf), &size);
 }
 
