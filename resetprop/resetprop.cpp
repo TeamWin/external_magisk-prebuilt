@@ -80,7 +80,7 @@ illegal:
 
 static void read_props(const prop_info *pi, void *read_cb) {
 	__system_property_read_callback(
-			pi, [](auto cb, auto name, auto value, auto) {
+			pi, [](void * cb, const char * name, const char * value, uint32_t) {
 				((read_cb_t *) cb)->exec(name, value);
 			}, read_cb);
 }
