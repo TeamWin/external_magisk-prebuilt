@@ -4,7 +4,13 @@
 #include <sys/stat.h>
 #include <mntent.h>
 #include <functional>
+#ifndef __ANDROID_API_O__
+#include <experimental/string_view>
+#define STRING_VIEW std::experimental::string_view
+#else
 #include <string_view>
+#define STRING_VIEW std::string_view
+#endif
 
 #include "xwrap.h"
 
@@ -35,13 +41,13 @@ void clone_attr(const char *source, const char *target);
 void fd_full_read(int fd, void **buf, size_t *size);
 void full_read(const char *filename, void **buf, size_t *size);
 void write_zero(int fd, size_t size);
-void file_readline(bool trim, const char *file, const std::function<bool(std::string_view)> &fn);
+void file_readline(bool trim, const char *file, const std::function<bool(STRING_VIEW)> &fn);
 static inline void file_readline(const char *file,
-		const std::function<bool(std::string_view)> &fn) {
+		const std::function<bool(STRING_VIEW)> &fn) {
 	file_readline(false, file, fn);
 }
 void parse_prop_file(const char *file,
-		const std::function<bool(std::string_view, std::string_view)> &fn);
+		const std::function<bool(STRING_VIEW, STRING_VIEW)> &fn);
 void *__mmap(const char *filename, size_t *size, bool rw);
 void frm_rf(int dirfd, std::initializer_list<const char *> excl = {});
 void clone_dir(int src, int dest, bool overwrite = true);
