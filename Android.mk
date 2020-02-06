@@ -20,4 +20,21 @@ LIBPCRE2 := $(EXT_PATH)/pcre/include
 MAGISK_CFLAGS += -D__MVSTR="TWRP-dynamic" -D__MCODE="ed58cf9"
 MAGISK_CFLAGS += -Wno-unused-parameter -std=c++14 -Wno-sign-compare
 
+ifeq ($(TW_INCLUDE_RESETPROP), true)
+    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
+        TW_INCLUDE_RESETPROP_PREBUILT := true
+    else
+        TW_INCLUDE_RESETPROP_SOURCE := true
+        TW_INCLUDE_LIBRESETPROP := true
+    endif
+endif
+
+ifeq ($(TW_INCLUDE_LIBRESETPROP), true)
+    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
+        TW_INCLUDE_LIBRESETPROP_PREBUILT := true
+    else
+        TW_INCLUDE_LIBRESETPROP_SOURCE := true
+    endif
+endif
+
 include $(call all-subdir-makefiles)
