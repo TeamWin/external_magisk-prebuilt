@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <syscall.h>
-#include <string_view>
+#include <experimental/string_view>
 
 #include <magisk.h>
 #include <utils.h>
