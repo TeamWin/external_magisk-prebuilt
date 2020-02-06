@@ -11,6 +11,9 @@
 #include <selinux.h>
 
 using namespace std;
+#ifndef __ANDROID_API_O__
+using namespace std::experimental;
+#endif
 
 ssize_t fd_path(int fd, char *path, size_t size) {
 	snprintf(path, size, "/proc/self/fd/%d", fd);
@@ -356,7 +359,7 @@ void write_zero(int fd, size_t size) {
 	}
 }
 
-void file_readline(bool trim, const char *file, const std::function<bool(std::string_view)> &fn) {
+void file_readline(bool trim, const char *file, const std::function<bool(STRING_VIEW)> &fn) {
 	FILE *fp = xfopen(file, "re");
 	if (fp == nullptr)
 		return;

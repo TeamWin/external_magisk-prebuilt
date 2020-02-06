@@ -3,7 +3,13 @@
 #include <pthread.h>
 #include <string>
 #include <functional>
+#ifndef __ANDROID_API_O__
+#include <experimental/string_view>
+#define STRING_VIEW std::experimental::string_view
+#else
 #include <string_view>
+#define STRING_VIEW std::string_view
+#endif
 
 #define UID_ROOT   0
 #define UID_SHELL  2000
@@ -62,7 +68,7 @@ reversed_container<T> reversed(T &base) {
 
 int parse_int(const char *s);
 static inline int parse_int(std::string s) { return parse_int(s.data()); }
-static inline int parse_int(std::string_view s) { return parse_int(s.data()); }
+static inline int parse_int(STRING_VIEW s) { return parse_int(s.data()); }
 
 int new_daemon_thread(void *(*start_routine) (void *), void *arg = nullptr,
 					  const pthread_attr_t *attr = nullptr);
@@ -96,7 +102,7 @@ int exec_command_sync(Args &&...args) {
 	return exec_command_sync(exec, args...);
 }
 
-bool ends_with(const std::string_view &s1, const std::string_view &s2);
+bool ends_with(const STRING_VIEW &s1, const STRING_VIEW &s2);
 int fork_dont_care();
 int fork_no_zombie();
 int strend(const char *s1, const char *s2);

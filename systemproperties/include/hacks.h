@@ -16,3 +16,14 @@ ssize_t __getline(char **, size_t *, FILE *);
 #ifndef __BIONIC_ALIGN
 #define __BIONIC_ALIGN(__value, __alignment) (((__value) + (__alignment)-1) & ~((__alignment)-1))
 #endif
+
+#ifndef XATTR_SECURITY_PREFIX
+#define XATTR_SECURITY_PREFIX "security."
+#define XATTR_SECURITY_PREFIX_LEN (sizeof(XATTR_SECURITY_PREFIX) - 1)
+#endif
+#ifndef XATTR_SELINUX_SUFFIX
+#define XATTR_SELINUX_SUFFIX "selinux"
+#endif
+#ifndef XATTR_NAME_SELINUX
+#define XATTR_NAME_SELINUX XATTR_SECURITY_PREFIX XATTR_SELINUX_SUFFIX
+#endif

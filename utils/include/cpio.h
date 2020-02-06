@@ -4,7 +4,13 @@
 #include <string>
 #include <memory>
 #include <map>
+#ifndef __ANDROID_API_O__
+#include <experimental/string_view>
+#define STRING_VIEW std::experimental::string_view
+#else
 #include <string_view>
+#define STRING_VIEW std::string_view
+#endif
 
 #include <stream.h>
 
@@ -35,7 +41,7 @@ struct cpio_entry : public cpio_entry_base {
 	~cpio_entry() override { free(data); };
 };
 
-typedef std::map<std::string_view, std::unique_ptr<cpio_entry_base>> entry_map;
+typedef std::map<STRING_VIEW, std::unique_ptr<cpio_entry_base>> entry_map;
 
 class cpio {
 public:

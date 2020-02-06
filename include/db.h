@@ -3,17 +3,23 @@
 #include <sys/stat.h>
 #include <map>
 #include <string>
+#ifndef __ANDROID_API_O__
+#include <experimental/string_view>
+#define STRING_VIEW std::experimental::string_view
+#else
 #include <string_view>
+#define STRING_VIEW std::string_view
+#endif
 #include <functional>
 
 template <class T, size_t num>
 class db_data_base {
 public:
-	T& operator [](std::string_view key) {
+	T& operator [](STRING_VIEW key) {
 		return data[getKeyIdx(key)];
 	}
 
-	const T& operator [](std::string_view key) const {
+	const T& operator [](STRING_VIEW key) const {
 		return data[getKeyIdx(key)];
 	}
 
@@ -27,7 +33,7 @@ public:
 
 protected:
 	T data[num + 1];
-	virtual int getKeyIdx(std::string_view key) const = 0;
+	virtual int getKeyIdx(STRING_VIEW key) const = 0;
 };
 
 /***************
@@ -79,7 +85,7 @@ public:
 	db_settings();
 
 protected:
-	int getKeyIdx(std::string_view key) const override;
+	int getKeyIdx(STRING_VIEW key) const override;
 };
 
 /**************
@@ -100,7 +106,7 @@ enum {
 
 class db_strings : public db_data_base<std::string, DB_STRING_NUM> {
 protected:
-	int getKeyIdx(std::string_view key) const override;
+	int getKeyIdx(STRING_VIEW key) const override;
 };
 
 /*************
@@ -141,7 +147,7 @@ struct su_access {
  * Public Functions *
  ********************/
 
-typedef std::map<std::string_view, std::string_view> db_row;
+typedef std::map<STRING_VIEW, STRING_VIEW> db_row;
 typedef std::function<bool(db_row&)> db_row_cb;
 
 int get_db_settings(db_settings &cfg, int key = -1);
