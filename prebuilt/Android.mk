@@ -21,7 +21,7 @@ endif
 
 # resetprop
 include $(CLEAR_VARS)
-ifeq ($(TW_INCLUDE_RESETPROP), true)
+ifeq ($(TW_INCLUDE_RESETPROP_PREBUILT), true)
     ifneq (,$(filter $(TARGET_ARCH), x86 x86_64))
         RESETPROP_TARGET := resetprop_x86
     else
