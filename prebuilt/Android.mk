@@ -37,3 +37,18 @@ ifeq ($(TW_INCLUDE_RESETPROP_PREBUILT), true)
     LOCAL_SRC_FILES := $(LOCAL_MODULE)
     include $(BUILD_PREBUILT)
 endif
+
+# libresetprop
+include $(CLEAR_VARS)
+ifeq ($(TW_INCLUDE_LIBRESETPROP_PREBUILT), true)
+    $(warning Magisk prebuilt tools not found!)
+    #resetprop prebuilt
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := libresetprop
+    LOCAL_MODULE_TAGS := eng
+    LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+    LOCAL_MODULE_SUFFIX := .so
+    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
+    LOCAL_SRC_FILES := libresetprop_$(TARGET_ARCH).so
+    include $(BUILD_PREBUILT)
+endif
