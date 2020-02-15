@@ -31,7 +31,7 @@ endif
 
 ifeq ($(TW_INCLUDE_LIBRESETPROP), true)
     ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
-        TW_INCLUDE_LIBRESETPROP_PREBUILT := true
+        $(warning libresetprop is not available for android < 7)
     else
         TW_INCLUDE_LIBRESETPROP_SOURCE := true
     endif
