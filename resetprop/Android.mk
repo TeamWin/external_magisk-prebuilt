@@ -11,7 +11,11 @@ ifeq ($(TW_INCLUDE_RESETPROP_SOURCE), true)
     LOCAL_MODULE := resetprop
     LOCAL_MULTILIB := first
     LOCAL_SHARED_LIBRARIES := libresetprop
-    LOCAL_MODULE_TAGS := eng
+    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
+        LOCAL_MODULE_TAGS := optional
+    else
+        LOCAL_MODULE_TAGS := eng
+    endif
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
     LOCAL_C_INCLUDES := \
         $(MAGISK_ROOT_PATH)/include \
@@ -33,7 +37,11 @@ ifeq ($(TW_INCLUDE_LIBRESETPROP_SOURCE), true)
     LOCAL_MULTILIB := first
     LOCAL_STATIC_LIBRARIES := libnanopb libmagisksystemproperties libmagiskutils
     LOCAL_SHARED_LIBRARIES := liblog libselinux
-    LOCAL_MODULE_TAGS := eng
+    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
+        LOCAL_MODULE_TAGS := optional
+    else
+        LOCAL_MODULE_TAGS := eng
+    endif
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
     LOCAL_C_INCLUDES := \
         $(MAGISK_ROOT_PATH)/include \
