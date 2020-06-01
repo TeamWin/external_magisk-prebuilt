@@ -57,8 +57,8 @@ ifeq ($(TW_INCLUDE_LIBRESETPROP_SOURCE), true)
 
     LOCAL_CFLAGS += $(MAGISK_CFLAGS)
     LOCAL_LDFLAGS := $(MAGISK_LDFLAGS)
-    ifneq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
-        LOCAL_CFLAGS += -Wno-error=implicit-fallthrough
+    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
+        LOCAL_CFLAGS += -Wno-implicit-fallthrough
     endif
     include $(BUILD_SHARED_LIBRARY)
 endif
