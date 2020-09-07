@@ -395,8 +395,8 @@ static bool magisk_env() {
 
 	// Disable/remove magiskhide, resetprop
 	if (SDK_INT < 19) {
-		unlink("/sbin/resetprop");
-		unlink("/sbin/magiskhide");
+		unlink("/system/bin/resetprop");
+		unlink("/system/bin/magiskhide");
 	}
 
 	if (access(DATABIN "/busybox", X_OK) == -1)
@@ -766,7 +766,7 @@ void boot_complete(int client) {
 		// Check whether we have manager installed
 		if (!check_manager()) {
 			// Install stub
-			exec_command_sync("/sbin/magiskinit", "-x", "manager", "/data/magisk.apk");
+			exec_command_sync("/system/bin/magiskinit", "-x", "manager", "/data/magisk.apk");
 			install_apk("/data/magisk.apk");
 		}
 	}
