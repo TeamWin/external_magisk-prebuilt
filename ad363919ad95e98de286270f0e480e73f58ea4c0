@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deec53dd_d1f30cd4",
+        "filename": "resetprop/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2020-09-07T23:29:23Z",
+      "side": 1,
+      "message": "should be system/bin",
+      "revId": "ad363919ad95e98de286270f0e480e73f58ea4c0",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833",
+      "unresolved": true
+    }
+  ]
+}
