@@ -34,6 +34,24 @@
       "revId": "ad363919ad95e98de286270f0e480e73f58ea4c0",
       "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f0f7ead_c7f4f936",
+        "filename": "resetprop/Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2020-09-08T15:11:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deec53dd_d1f30cd4",
+      "revId": "ad363919ad95e98de286270f0e480e73f58ea4c0",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833",
+      "unresolved": false
     }
   ]
 }
