@@ -202,12 +202,12 @@ void restorecon() {
 }
 
 void restore_rootcon() {
-	setfilecon("/system/bin", ROOT_CON);
+	setfilecon("/sbin", ROOT_CON);
 	setfilecon(MAGISKTMP, ROOT_CON);
 	setfilecon(MIRRDIR, ROOT_CON);
 	setfilecon(BLOCKDIR, ROOT_CON);
 
-	auto dir = xopen_dir("/system/bin");
+	auto dir = xopen_dir("/sbin");
 	int dfd = dirfd(dir.get());
 
 	for (dirent *entry; (entry = xreaddir(dir.get()));) {
@@ -216,7 +216,7 @@ void restore_rootcon() {
 		setfilecon_at(dfd, entry->d_name, ROOT_CON);
 	}
 
-	setfilecon("/system/bin/magisk.bin", MAGISK_CON);
-	setfilecon("/system/bin/magisk", MAGISK_CON);
-	setfilecon("/system/bin/magiskinit", MAGISK_CON);
+	setfilecon("/sbin/magisk.bin", MAGISK_CON);
+	setfilecon("/sbin/magisk", MAGISK_CON);
+	setfilecon("/sbin/magiskinit", MAGISK_CON);
 }

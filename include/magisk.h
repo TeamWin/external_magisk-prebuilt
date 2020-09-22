@@ -7,7 +7,7 @@
 #define LOGFILE         "/cache/magisk.log"
 #define UNBLOCKFILE     "/dev/.magisk_unblock"
 #define DISABLEFILE     "/cache/.disable_magisk"
-#define MAGISKTMP       "/system/bin/.magisk"
+#define MAGISKTMP       "/sbin/.magisk"
 #define MIRRDIR         MAGISKTMP "/mirror"
 #define BLOCKDIR        MAGISKTMP "/block"
 #define BBPATH          MAGISKTMP "/busybox"
