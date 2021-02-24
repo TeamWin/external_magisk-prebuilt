@@ -10,8 +10,7 @@ ifeq ($(TW_INCLUDE_REPACKTOOLS), true)
     endif
     #magiskboot prebuilt
     include $(CLEAR_VARS)
-    LOCAL_MODULE := $(MAGISKBOOT_TARGET)
-    LOCAL_MODULE_STEM := magiskboot
+    LOCAL_MODULE := magiskboot
     ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
         LOCAL_MODULE_TAGS := optional
     else
@@ -19,7 +18,7 @@ ifeq ($(TW_INCLUDE_REPACKTOOLS), true)
     endif
     LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/system/bin
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
+    LOCAL_SRC_FILES := $(MAGISKBOOT_TARGET)
     include $(BUILD_PREBUILT)
 endif
 
@@ -33,11 +32,14 @@ ifeq ($(TW_INCLUDE_RESETPROP_PREBUILT), true)
     endif
     #resetprop prebuilt
     include $(CLEAR_VARS)
-    LOCAL_MODULE := $(RESETPROP_TARGET)
-    LOCAL_MODULE_STEM := resetprop
-    LOCAL_MODULE_TAGS := eng
+    LOCAL_MODULE := resetprop
+    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
+        LOCAL_MODULE_TAGS := optional
+    else
+        LOCAL_MODULE_TAGS := eng
+    endif
     LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/system/bin
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
+    LOCAL_SRC_FILES := $(RESETPROP_TARGET)
     include $(BUILD_PREBUILT)
 endif
