@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18fa0d8a_576990a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2021-02-27T17:23:05Z",
+      "side": 1,
+      "message": "Wrong branch. Please abandon.",
+      "revId": "63fc12e9f1351e451a460c0c1cdb655a09f3bc2d",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    }
+  ]
+}
