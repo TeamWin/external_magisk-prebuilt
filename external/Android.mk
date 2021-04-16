@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
 # libnanopb.a
 include $(CLEAR_VARS)
 LOCAL_MODULE:= libnanopb
-LOCAL_C_INCLUDES := ../$(LIBNANOPB)
+LOCAL_C_INCLUDES := nanopb
 LOCAL_SRC_FILES := \
 	nanopb/pb_common.c \
 	nanopb/pb_decode.c \
