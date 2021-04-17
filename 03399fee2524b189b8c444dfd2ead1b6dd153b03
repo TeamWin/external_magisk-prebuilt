@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 02AC01A7795EEEB8 1618616530 -0400\npushee ssh://gerrit.twrp.me:29418/external_magisk-prebuilt\nnonce 1618616530-B3C6A5F4E514780716C36A39440B04BE056235B4\n\n0000000000000000000000000000000000000000 03399fee2524b189b8c444dfd2ead1b6dd153b03 refs/for/android-11\n-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEwl4aGFhPbHPCDtvWAqwBp3le7rgFAmB6INIACgkQAqwBp3le\n7rjgZg//axwYKk4zMAjNGqwHqJ4RgudNYZPR12NujG2BAdjBBS29Qt29ZeSlvVF0\nmofQCZQure9cPNWY+UftZIRIgORWc2Y9ZUO402dce46XsOvUwhlLJS8fgF8abh71\nLQSw0E3oOPzMnPf9VXwC1cuwh3A9mOuXBEb7xAW5kRDIPO4VhkqUa+LZDPnIeMw+\nk2AalNiYnc3w+HmRRFlNqn9bnaYl9li4tLggG3ntJ5DxD7Cn+Kl/OPA7QPCK5zpG\nniBRFzTNuEiScaao39VpMgvgoets0782U5d0uYLlNHjcoBijOb5/EzoOG5DY94fd\nhk5AOuRCHivmqOXIE2ZzjGwNQXM31oXfROr+fT+LjFVlrH/NyJs7jNAN+nTyft3C\n3DdDHiZ4LbyHo507Q0VRW4oPVr6FRpSYIiLDB8Szhc+1JQAgatrafVuYsOZ4+hQ9\nbRN0oUKuvj0w/lbkZCW5XU0cryS8g2xYxAsJ5b3lQvR/MODD9GZvoKjwzFM879u+\n1w4c+x6C/wqtisk523ty5VxD8BAae68vJJeHFVomPYLgpz3T66Jo2q5ugcdrJsSN\nZJXqz9DnVIApg7KhVMWJjzDYgtMiWWTRhMXJme/f+rk16T0YMJpbctFsWOkPcx2z\nkyu7STyChKb6YeZI1JxKQRCKHBd9ycfOQmkEekPZ8yXg1ytIEO4\u003d\n\u003dspcn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e0c5648_2404effb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 124
+      },
+      "writtenOn": "2021-04-17T08:45:45Z",
+      "side": 1,
+      "message": "https://github.com/PitchBlackRecoveryProject/external_magisk-prebuilt/commit/8b4bc63058847b8d881444c157bd931b713b6de9\n\nif you dont mind this would be better for all",
+      "revId": "03399fee2524b189b8c444dfd2ead1b6dd153b03",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    }
+  ]
 }
