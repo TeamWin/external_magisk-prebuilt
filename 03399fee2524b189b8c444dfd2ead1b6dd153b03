@@ -17,6 +17,24 @@
       "message": "https://github.com/PitchBlackRecoveryProject/external_magisk-prebuilt/commit/8b4bc63058847b8d881444c157bd931b713b6de9\n\nif you dont mind this would be better for all",
       "revId": "03399fee2524b189b8c444dfd2ead1b6dd153b03",
       "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc78e736_d5f2fdc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2021-04-20T17:19:14Z",
+      "side": 1,
+      "message": "If you want to either pick that one instead or update this one with those changes, I\u0027m fine with that. I just needed this to get it to build so I figured everyone else did too, since I saw no other patch here to fix it.",
+      "parentUuid": "6e0c5648_2404effb",
+      "revId": "03399fee2524b189b8c444dfd2ead1b6dd153b03",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
     }
   ]
 }
