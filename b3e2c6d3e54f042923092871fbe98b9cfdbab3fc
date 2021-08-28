@@ -16,6 +16,23 @@
       "message": "Can you explain why you -1ed this patchset? Thanks.",
       "revId": "b3e2c6d3e54f042923092871fbe98b9cfdbab3fc",
       "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb691741_af435fbd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2021-08-28T23:09:21Z",
+      "side": 1,
+      "message": "This works fine for me",
+      "revId": "b3e2c6d3e54f042923092871fbe98b9cfdbab3fc",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
     }
   ]
 }
