@@ -4,17 +4,13 @@
 #include <pb_decode.h>
 #include "alltypes.pb.h"
 #include "test_helpers.h"
-
-#define TEST(x) if (!(x)) { \
-    fprintf(stderr, "Test " #x " failed.\n"); \
-    status = false; \
-    }
+#include "unittests.h"
 
 /* This function is called once from main(), it handles
    the decoding and checks the fields. */
 bool check_alltypes(pb_istream_t *stream, int mode)
 {
-    bool status = true;
+    int status = 0;
     AllTypes alltypes;
     
     /* Fill with garbage to better detect initialization errors */
@@ -43,8 +39,7 @@ bool check_alltypes(pb_istream_t *stream, int mode)
     TEST(alltypes.req_string    && strcmp(alltypes.req_string, "1014") == 0);
     TEST(alltypes.req_bytes     && alltypes.req_bytes->size == 4);
     TEST(alltypes.req_bytes     && memcmp(&alltypes.req_bytes->bytes, "1015", 4) == 0);
-    TEST(alltypes.req_submsg    && alltypes.req_submsg->substuff1
-                                && strcmp(alltypes.req_submsg->substuff1, "1016") == 0);
+    TEST(alltypes.req_submsg    && strcmp(alltypes.req_submsg->substuff1, "1016") == 0);
     TEST(alltypes.req_submsg    && alltypes.req_submsg->substuff2
                                 && *alltypes.req_submsg->substuff2 == 1016);
     TEST(alltypes.req_enum      && *alltypes.req_enum == MyEnum_Truth);
@@ -80,6 +75,8 @@ bool check_alltypes(pb_istream_t *stream, int mode)
     TEST(alltypes.rep_fbytes_count == 5);
     TEST(alltypes.rep_fbytes[0][0] == 0 && alltypes.rep_fbytes[0][3] == 0);
     TEST(memcmp(alltypes.rep_fbytes[4], "2019", 4) == 0);
+    TEST(alltypes.rep_farray && (*alltypes.rep_farray)[0] == 0 && (*alltypes.rep_farray)[4] == 2040);
+    TEST(alltypes.rep_farray2 && (*alltypes.rep_farray2)[0] == 0 && (*alltypes.rep_farray2)[2] == 2095);
 
     if (mode == 0)
     {
@@ -106,6 +103,8 @@ bool check_alltypes(pb_istream_t *stream, int mode)
         TEST(alltypes.opt_fbytes        == NULL);
 
         TEST(alltypes.which_oneof       == 0);
+
+        TEST(alltypes.opt_non_zero_based_enum == NULL);
     }
     else
     {
@@ -137,6 +136,8 @@ bool check_alltypes(pb_istream_t *stream, int mode)
         TEST(alltypes.which_oneof == AllTypes_oneof_msg1_tag);
         TEST(alltypes.oneof.oneof_msg1 && strcmp(alltypes.oneof.oneof_msg1->substuff1, "4059") == 0);
         TEST(alltypes.oneof.oneof_msg1->substuff2 && *alltypes.oneof.oneof_msg1->substuff2 == 4059);
+
+        TEST(alltypes.opt_non_zero_based_enum && *alltypes.opt_non_zero_based_enum == NonZeroBasedEnum_Three);
     }
     
     TEST(alltypes.req_limits->int32_min && *alltypes.req_limits->int32_min   == INT32_MIN);
@@ -149,12 +150,25 @@ bool check_alltypes(pb_istream_t *stream, int mode)
     TEST(alltypes.req_limits->uint64_max && *alltypes.req_limits->uint64_max == UINT64_MAX);
     TEST(alltypes.req_limits->enum_min && *alltypes.req_limits->enum_min     == HugeEnum_Negative);
     TEST(alltypes.req_limits->enum_max && *alltypes.req_limits->enum_max     == HugeEnum_Positive);
+    TEST(alltypes.req_limits->largetag && *alltypes.req_limits->largetag   == 1001);
+
+    TEST(alltypes.req_ds8);
+    TEST(alltypes.req_ds8->first && *alltypes.req_ds8->first == 9991);
+    TEST(alltypes.req_ds8->first && *alltypes.req_ds8->second == 9992);
     
+    TEST(alltypes.req_intsizes);
+    TEST(*alltypes.req_intsizes->req_int8 == -128);
+    TEST(*alltypes.req_intsizes->req_uint8 == 255);
+    TEST(*alltypes.req_intsizes->req_sint8 == -128);
+    TEST(*alltypes.req_intsizes->req_int16 == -32768);
+    TEST(*alltypes.req_intsizes->req_uint16 == 65535);
+    TEST(*alltypes.req_intsizes->req_sint16 == -32768);
+
     TEST(alltypes.end && *alltypes.end == 1099);
 
     pb_release(AllTypes_fields, &alltypes);
 
-    return status;
+    return status == 0;
 }
 
 int main(int argc, char **argv)

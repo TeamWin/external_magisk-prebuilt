@@ -1,5 +1,11 @@
 syntax = "proto2";
 
+enum NonZeroBasedEnum {
+    Two = 2;
+    Three = 3;
+    Four = 4;
+}
+
 message SubMessage {
     required string substuff1 = 1 [default = "1"];
     required int32 substuff2 = 2 [default = 2];
@@ -26,6 +32,21 @@ message Limits {
     required uint64     uint64_max =  8;
     required HugeEnum   enum_min   =  9;
     required HugeEnum   enum_max   = 10;
+    required int32      largetag   = 65535 [default = 0];
+}
+
+message IntSizes {
+    required int32  req_int8 =   1 ;
+    required uint32 req_uint8 =  2 ;
+    required sint32 req_sint8 =  3 ;
+    required int32  req_int16 =  4 ;
+    required uint32 req_uint16 = 5 ;
+    required sint32 req_sint16 = 6 ;
+}
+
+message DescriptorSize8 {
+    required int32 first = 1;
+    required int32 second = 22222;
 }
 
 enum MyEnum {
@@ -81,6 +102,7 @@ message AllTypes {
     repeated MyEnum     rep_enum    = 10037;
     repeated EmptyMessage rep_emptymsg = 10038;
     repeated bytes      rep_fbytes  = 10039;
+    repeated int32      rep_farray  = 10040;
     
     optional int32      opt_int32   = 10041 [default = 4041];
     optional int64      opt_int64   = 10042 [default = 4042];
@@ -110,6 +132,17 @@ message AllTypes {
         SubMessage oneof_msg1 = 10060;
         EmptyMessage oneof_msg2 = 10061;
     }
+
+    optional NonZeroBasedEnum opt_non_zero_based_enum = 10062;
+
+    // Second fixed length array field to test the length check logic.
+    repeated fixed32 rep_farray2 = 95 [packed = true];
+
+    // Check support for custom integer sizes
+    required IntSizes req_intsizes = 96;
+
+    // Check support for 8-word descriptors
+    required DescriptorSize8 req_ds8 = 97;
 
     // Check that extreme integer values are handled correctly
     required Limits     req_limits = 98;

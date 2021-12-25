@@ -1,4 +1,6 @@
-all: nanopb_pb2.py plugin_pb2.py
+PROTOC?=protoc
+
+all: nanopb_pb2.py
 
 %_pb2.py: %.proto
-	protoc --python_out=. $<
+	$(PROTOC) --python_out=. $<

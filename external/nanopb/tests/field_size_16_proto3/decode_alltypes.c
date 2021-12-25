@@ -9,17 +9,14 @@
 #include <pb_decode.h>
 #include "alltypes.pb.h"
 #include "test_helpers.h"
-
-#define TEST(x) if (!(x)) { \
-    printf("Test " #x " failed.\n"); \
-    return false; \
-    }
+#include "unittests.h"
 
 /* This function is called once from main(), it handles
    the decoding and checks the fields. */
 bool check_alltypes(pb_istream_t *stream, int mode)
 {
     AllTypes alltypes = AllTypes_init_zero;
+    int status = 0;
 
     /* Fill with garbage to better detect initialization errors */
     memset(&alltypes, 0xAA, sizeof(alltypes));
@@ -80,6 +77,7 @@ bool check_alltypes(pb_istream_t *stream, int mode)
 
         TEST(strcmp(alltypes.sng_string, "") == 0);
         TEST(alltypes.sng_bytes.size == 0);
+        TEST(alltypes.has_sng_submsg == false);
         TEST(strcmp(alltypes.sng_submsg.substuff1, "") == 0);
         TEST(alltypes.sng_submsg.substuff2 == 0);
         TEST(alltypes.sng_submsg.substuff3 == 0);
@@ -113,6 +111,7 @@ bool check_alltypes(pb_istream_t *stream, int mode)
         TEST(strcmp(alltypes.sng_string, "3054") == 0);
         TEST(alltypes.sng_bytes.size == 4);
         TEST(memcmp(alltypes.sng_bytes.bytes, "3055", 4) == 0);
+        TEST(alltypes.has_sng_submsg == true);
         TEST(strcmp(alltypes.sng_submsg.substuff1, "3056") == 0);
         TEST(alltypes.sng_submsg.substuff2 == 3056);
         TEST(alltypes.sng_submsg.substuff3 == 0);
@@ -137,7 +136,7 @@ bool check_alltypes(pb_istream_t *stream, int mode)
 
     TEST(alltypes.end == 1099);
 
-    return true;
+    return status == 0;
 }
 
 int main(int argc, char **argv)

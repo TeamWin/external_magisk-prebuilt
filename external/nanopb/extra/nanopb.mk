@@ -2,7 +2,7 @@
 # .pb.c and .pb.h files out of .proto, as well the path to nanopb core.
 
 # Path to the nanopb root directory
-NANOPB_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))../)
+NANOPB_DIR := $(patsubst %/,%,$(dir $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))))
 
 # Files for the nanopb core
 NANOPB_CORE = $(NANOPB_DIR)/pb_encode.c $(NANOPB_DIR)/pb_decode.c $(NANOPB_DIR)/pb_common.c
@@ -20,14 +20,14 @@ endif
 ifneq "$(wildcard $(NANOPB_DIR)/generator-bin)" ""
 	# Binary package
 	PROTOC = $(NANOPB_DIR)/generator-bin/protoc
-	PROTOC_OPTS = 
+	PROTOC_OPTS =
 else
 	# Source only or git checkout
-	PROTOC = protoc
+	PROTOC_OPTS =
 	ifdef WINDOWS
-		PROTOC_OPTS = --plugin=protoc-gen-nanopb=$(NANOPB_DIR)/generator/protoc-gen-nanopb.bat
+	    PROTOC = python $(NANOPB_DIR)/generator/protoc
 	else
-		PROTOC_OPTS = --plugin=protoc-gen-nanopb=$(NANOPB_DIR)/generator/protoc-gen-nanopb
+	    PROTOC = $(NANOPB_DIR)/generator/protoc
 	endif
 endif
 
