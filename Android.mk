@@ -12,7 +12,7 @@ LIBBZ2 := $(EXT_PATH)/bzip2
 LIBFDT := $(EXT_PATH)/dtc/libfdt
 LIBNANOPB := $(EXT_PATH)/nanopb
 LIBSYSTEMPROPERTIES := $(LOCAL_PATH)/systemproperties/include
-LIBUTILS := $(LOCAL_PATH)/utils/include
+LIBUTILS := $(LOCAL_PATH)/utils/
 LIBMINCRYPT := $(EXT_PATH)/mincrypt/include
 LIBXZ := $(EXT_PATH)/xz-embedded
 LIBPCRE2 := $(EXT_PATH)/pcre/include
@@ -21,20 +21,12 @@ MAGISK_CFLAGS += -D__MVSTR="TWRP-dynamic" -D__MCODE="ed58cf9"
 MAGISK_CFLAGS += -Wno-unused-parameter -std=c++14 -Wno-sign-compare
 
 ifeq ($(TW_INCLUDE_RESETPROP), true)
-    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
-        TW_INCLUDE_RESETPROP_PREBUILT := true
-    else
-        TW_INCLUDE_RESETPROP_SOURCE := true
-        TW_INCLUDE_LIBRESETPROP := true
-    endif
+    TW_INCLUDE_RESETPROP_SOURCE := true
+    TW_INCLUDE_LIBRESETPROP := true
 endif
 
 ifeq ($(TW_INCLUDE_LIBRESETPROP), true)
-    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
-        $(warning libresetprop is not available for android < 7)
-    else
-        TW_INCLUDE_LIBRESETPROP_SOURCE := true
-    endif
+    TW_INCLUDE_LIBRESETPROP_SOURCE := true
 endif
 
 include $(call all-subdir-makefiles)

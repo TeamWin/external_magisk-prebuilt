@@ -86,6 +86,51 @@ int main()
     }
     
     {
+        uint8_t buffer[50];
+        pb_ostream_t s;
+        
+        COMMENT("Test pb_encode_varint 32-bit fast path")
+        TEST(WRITES(pb_encode_varint(&s, 0x00000000), "\x00"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00000001), "\x01"));
+        TEST(WRITES(pb_encode_varint(&s, 0x0000007F), "\x7F"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00000080), "\x80\x01"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00000191), "\x91\x03"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00003FFF), "\xFF\x7F"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00004000), "\x80\x80\x01"));
+        TEST(WRITES(pb_encode_varint(&s, 0x0000D111), "\x91\xA2\x03"));
+        TEST(WRITES(pb_encode_varint(&s, 0x001FFFFF), "\xFF\xFF\x7F"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00200000), "\x80\x80\x80\x01"));
+        TEST(WRITES(pb_encode_varint(&s, 0x00711111), "\x91\xA2\xC4\x03"));
+        TEST(WRITES(pb_encode_varint(&s, 0x0FFFFFFF), "\xFF\xFF\xFF\x7F"));
+        TEST(WRITES(pb_encode_varint(&s, 0x10000000), "\x80\x80\x80\x80\x01"));
+        TEST(WRITES(pb_encode_varint(&s, 0x31111111), "\x91\xA2\xC4\x88\x03"));
+        TEST(WRITES(pb_encode_varint(&s, UINT32_MAX), "\xFF\xFF\xFF\xFF\x0F"));
+    }
+    
+    {
+        uint8_t buffer[50];
+        pb_ostream_t s;
+        
+        COMMENT("Test pb_encode_svarint 32-bit fast path")
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x00000000), "\x00"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0xFFFFFFFF), "\x01"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x0000003F), "\x7E"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0xFFFFFFC0), "\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x00000040), "\x80\x01"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x00001FFF), "\xFE\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0xFFFFE000), "\xFF\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x00002000), "\x80\x80\x01"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x000FFFFF), "\xFE\xFF\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0xFFF00000), "\xFF\xFF\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x00100000), "\x80\x80\x80\x01"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x07FFFFFF), "\xFE\xFF\xFF\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0xF8000000), "\xFF\xFF\xFF\x7F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x08000000), "\x80\x80\x80\x80\x01"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x7FFFFFFF), "\xFE\xFF\xFF\xFF\x0F"));
+        TEST(WRITES(pb_encode_svarint(&s, (int32_t)0x80000000), "\xFF\xFF\xFF\xFF\x0F"));
+    }
+    
+    {
         uint8_t buffer[30];
         pb_ostream_t s;
         
@@ -97,9 +142,11 @@ int main()
     {
         uint8_t buffer[30];
         pb_ostream_t s;
-        pb_field_t field = {10, PB_LTYPE_SVARINT};
-        
+        pb_field_iter_t field;
+        field.tag = 10;
+
         COMMENT("Test pb_encode_tag_for_field")
+        field.type = PB_LTYPE_SVARINT;
         TEST(WRITES(pb_encode_tag_for_field(&s, &field), "\x50"));
         
         field.type = PB_LTYPE_FIXED64;
@@ -130,18 +177,33 @@ int main()
         int32_t min = INT32_MIN;
         int64_t lmax = INT64_MAX;
         int64_t lmin = INT64_MIN;
-        pb_field_t field = {1, PB_LTYPE_VARINT, 0, 0, sizeof(value)};
-        
+        pb_field_iter_t field;
+
         COMMENT("Test pb_enc_varint and pb_enc_svarint")
-        TEST(WRITES(pb_enc_varint(&s, &field, &value), "\x01"));
+        field.type = PB_LTYPE_VARINT;
+        field.data_size = sizeof(value);
+        field.pData = &value;
+        TEST(WRITES(pb_enc_varint(&s, &field), "\x01"));
         
+        field.type = PB_LTYPE_SVARINT;
         field.data_size = sizeof(max);
-        TEST(WRITES(pb_enc_svarint(&s, &field, &max), "\xfe\xff\xff\xff\x0f"));
-        TEST(WRITES(pb_enc_svarint(&s, &field, &min), "\xff\xff\xff\xff\x0f"));
+        field.pData = &max;
+        TEST(WRITES(pb_enc_varint(&s, &field), "\xfe\xff\xff\xff\x0f"));
+
+        field.type = PB_LTYPE_SVARINT;
+        field.data_size = sizeof(min);
+        field.pData = &min;
+        TEST(WRITES(pb_enc_varint(&s, &field), "\xff\xff\xff\xff\x0f"));
         
+        field.type = PB_LTYPE_SVARINT;
         field.data_size = sizeof(lmax);
-        TEST(WRITES(pb_enc_svarint(&s, &field, &lmax), "\xFE\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x01"));
-        TEST(WRITES(pb_enc_svarint(&s, &field, &lmin), "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x01"));
+        field.pData = &lmax;
+        TEST(WRITES(pb_enc_varint(&s, &field), "\xFE\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x01"));
+
+        field.type = PB_LTYPE_SVARINT;
+        field.data_size = sizeof(lmin);
+        field.pData = &lmin;
+        TEST(WRITES(pb_enc_varint(&s, &field), "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x01"));
     }
     
     {
@@ -149,46 +211,58 @@ int main()
         pb_ostream_t s;
         float fvalue;
         double dvalue;
+        pb_field_iter_t field;
         
-        COMMENT("Test pb_enc_fixed32 using float")
+        COMMENT("Test pb_enc_fixed using float")
+        field.type = PB_LTYPE_FIXED32;
+        field.data_size = sizeof(fvalue);
+        field.pData = &fvalue;
         fvalue = 0.0f;
-        TEST(WRITES(pb_enc_fixed32(&s, NULL, &fvalue), "\x00\x00\x00\x00"))
+        TEST(WRITES(pb_enc_fixed(&s, &field), "\x00\x00\x00\x00"))
         fvalue = 99.0f;
-        TEST(WRITES(pb_enc_fixed32(&s, NULL, &fvalue), "\x00\x00\xc6\x42"))
+        TEST(WRITES(pb_enc_fixed(&s, &field), "\x00\x00\xc6\x42"))
         fvalue = -12345678.0f;
-        TEST(WRITES(pb_enc_fixed32(&s, NULL, &fvalue), "\x4e\x61\x3c\xcb"))
+        TEST(WRITES(pb_enc_fixed(&s, &field), "\x4e\x61\x3c\xcb"))
     
-        COMMENT("Test pb_enc_fixed64 using double")
+        COMMENT("Test pb_enc_fixed using double")
+        field.type = PB_LTYPE_FIXED64;
+        field.data_size = sizeof(dvalue);
+        field.pData = &dvalue;
         dvalue = 0.0;
-        TEST(WRITES(pb_enc_fixed64(&s, NULL, &dvalue), "\x00\x00\x00\x00\x00\x00\x00\x00"))
+        TEST(WRITES(pb_enc_fixed(&s, &field), "\x00\x00\x00\x00\x00\x00\x00\x00"))
         dvalue = 99.0;
-        TEST(WRITES(pb_enc_fixed64(&s, NULL, &dvalue), "\x00\x00\x00\x00\x00\xc0\x58\x40"))
+        TEST(WRITES(pb_enc_fixed(&s, &field), "\x00\x00\x00\x00\x00\xc0\x58\x40"))
         dvalue = -12345678.0;
-        TEST(WRITES(pb_enc_fixed64(&s, NULL, &dvalue), "\x00\x00\x00\xc0\x29\x8c\x67\xc1"))
+        TEST(WRITES(pb_enc_fixed(&s, &field), "\x00\x00\x00\xc0\x29\x8c\x67\xc1"))
     }
     
     {
         uint8_t buffer[30];
         pb_ostream_t s;
         struct { pb_size_t size; uint8_t bytes[5]; } value = {5, {'x', 'y', 'z', 'z', 'y'}};
-    
+        pb_field_iter_t field;
+        pb_field_iter_begin(&field, BytesMessage_fields, &value);
+
         COMMENT("Test pb_enc_bytes")
-        TEST(WRITES(pb_enc_bytes(&s, &BytesMessage_fields[0], &value), "\x05xyzzy"))
+        TEST(WRITES(pb_enc_bytes(&s, &field), "\x05xyzzy"))
         value.size = 0;
-        TEST(WRITES(pb_enc_bytes(&s, &BytesMessage_fields[0], &value), "\x00"))
+        TEST(WRITES(pb_enc_bytes(&s, &field), "\x00"))
     }
     
     {
         uint8_t buffer[30];
         pb_ostream_t s;
         char value[30] = "xyzzy";
+        pb_field_iter_t field;
+        pb_field_iter_begin(&field, StringMessage_fields, &value);
         
         COMMENT("Test pb_enc_string")
-        TEST(WRITES(pb_enc_string(&s, &StringMessage_fields[0], &value), "\x05xyzzy"))
+        TEST(WRITES(pb_enc_string(&s, &field), "\x05xyzzy"))
         value[0] = '\0';
-        TEST(WRITES(pb_enc_string(&s, &StringMessage_fields[0], &value), "\x00"))
-        memset(value, 'x', 30);
-        TEST(WRITES(pb_enc_string(&s, &StringMessage_fields[0], &value), "\x0Axxxxxxxxxx"))
+        TEST(WRITES(pb_enc_string(&s, &field), "\x00"))
+        memset(value, 'x', 10);
+        value[10] = '\0';
+        TEST(WRITES(pb_enc_string(&s, &field), "\x0Axxxxxxxxxx"))
     }
     
     {

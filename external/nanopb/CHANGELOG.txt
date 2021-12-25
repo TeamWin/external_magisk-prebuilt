@@ -1,4 +1,186 @@
+nanopb-0.4.5 (2021-03-22)
+ Fix invalid free() with oneof (#647, GHSA-7mv5-5mxh-qg88)
+ Fix unordered field numbers inside oneof causing fields to be ignored (#617)
+ Fix pb_decode() not initializing fields inside oneof (#635
+ Fix compiler errors with complex oneof hierarchy and sizeof() (#610)
+ Fix descriptor width calculation for 64-bit types (#644)
+ Fix compiler error in generated initializer for submessage callback (#631)
+ Fix duplicate union definition in generated file (#637)
+ Fix test case build error on SCons 4.1.0
+ Pip package: include nanopb_pb2.py (#629)
+ Make generator consider dependencies recursively (#610)
+ Bazel build system updates (#633)
+ Add support for including comments from .proto file (#85, #645)
+
+nanopb-0.4.4 (2020-11-25)
+ Fix memory leak with oneofs and PB_ENABLE_MALLOC (#615, GHSA-85rr-4rh9-hhwh)
+ Fix generator error when oneof contains a single unresolved field size (#610)
+ Fix unsigned enums not working correctly inside OneOf (#611)
+ Fix recursion depth exceeded error in generator (#493)
+ Add '--version' option to nanopb_generator.py (#607)
+ Add support for proto3 optional fields introduced in protoc 3.12 (#591)
+ Add better error message when enum type is not found (#592)
+ Allow specifying descriptorsize on field level also (#546)
+ Allow multiple targets to be created by calling NANOPB_GENERATE_CPP() (#596)
+ Conanfile: Add protobuf-nanopb library to cpp_info.libs (#605)
+ Include version number in generator verbose output
+ Convert documentation to markdown format (#587)
+ Remove outdated transitional generator/nanopb/options.proto.
+ Test case improvements
+ Documentation improvements
+
+nanopb-0.4.3 (2020-09-21)
+ Fix generator error when output is in current directory (#553)
+ Fix issue with unknown message sizes being referred inside oneof encoded size calculation (#569)
+ Fix problem with [default=xxxx, (nanopb).proto3=true] field option combination (#558)
+ Fix cross compilation with Conan build system (#568)
+ Better support C++ types in generated structs (#577)
+ CMake rule improvements (#554, #555, #556, #561, #564)
+ Generator: fix compatibility bug with Python 3.1 and earlier
+ Make Linux and Mac packages use grpcio protoc
+ Make pb_decode_varint32() reject overlong varint encodings.
+ Performance optimizations
+ Test case improvements
+ Documentation improvements
+
+NOTE: version 0.4.3 changes layout of pb_msgdesc_t. It requires recompiling .pb.c files and
+thus breaks ABI compatibility. In general, ABI compatibility is not currently maintained
+between any nanopb versions.
+
+NOTE: There was an apparent false positive virus identification by Windows Defender of the
+PyInstaller 3.6 based Windows package nanopb-0.4.3-windows-x86.zip. The package was replaced
+by nanopb-0.4.3-p1-windows-x86.zip with rebuilt PyInstaller 4.0, which seems to avoid the problem.
+Actual nanopb code is unchanged between the packages.
+
+nanopb-0.4.2 (2020-06-23)
+ Fix buffer overflow when encoding bytes with size set to 65535 (#547, GHSA-3p39-mfxg-hrq4)
+ Fix segfault with pointer fields and proto3_singular_msgs = true. (#504,#505)
+ Fix Windows 10 temp file handling (#486)
+ Fix macro name conflicts (ATMEGA32U4 UENUM and more) (#522)
+ Fix generator error with nested messages and default values (#487)
+ Fix nanopb_generator exception on enums with aliases (#535)
+ Fix compile error when struct members are called X or a (#492)
+ Fix sizeof(union ...) fallback not compiling with C++ (#415, #494)
+ Fix "missing required field" error with submessage callback (#544)
+ Fix field descriptor sizing with submsg_callback option (#545)
+ Fix protoc calling on Python 2 (#503)
+ Fix handling of varying NaN representations in PB_CONVERT_DOUBLE_FLOAT (#543)
+ Fix clang undefined behavior sanitizer errors.
+ Change generator to use Python 3 by default (#441, #509)
+ Binary packages updated to use Python 3 and grpcio-tools
+ Add support for infinity and nan floating-point defaults (#530, #538)
+ Add generator option sort_by_tag (#542)
+ Add type_override option to override type defined in .proto (#497)
+ Set proto2 enum fields to first value when no default is given, even if nonzero (#532,#539)
+ Include protoc-gen-nanopb in path in protoc wrapper script
+ Properly pass error status from protoc wrapper when calling binary protoc
+ Generator: pass --include_imports when calling protoc (#494)
+ Create intermediate directories when writing files to relative path (#512)
+ Add current directory to include path for protoc (#499)
+ Update readme to use nanopb_generator.py directly
+ Regression test for proto3 incorrectly considered empty (#504)
+ CMake: change package name to Nanopb for cmake 3.17 compatibility (#506)
+ CMake: remove find_package(PythonInterp) (#508)
+ CMake: use split --nanopb_opt only on protoc >= 3.6 (#515)
+ CMake: Relax python version spec, allowing Python3. (#534)
+ Swift package manager (#549)
+ Rename BUILD as BUILD.bazel (#537)
+
+Note: Windows binary packages in 0.4.2 and later require Windows 7 or newer.
+
+nanopb-0.4.1 (2020-02-02)
+ Fix invalid free() after failed realloc() (GHSA-gcx3-7m76-287p)
+ Avoid overflows in allocation for packed fields.
+ Verify stream size before allocating string / bytes.
+ Add workaround for avr-libc realloc() bug (#475)
+ Fix bug with field numbers >255 (#407)
+ Fix compilation error on platforms without uint8_t (#485)
+ Fix warnings on Python3.8 (#399, #467)
+ Make fixed_count option work when combined with FT_POINTER.
+ Add missing #define for submsg callbacks, add regression test (#472)
+ Fix ImportError when using generator/protoc with Python 3
+ Remove accidental debug code in generator
+ Reduce stack usage (#484)
+ Remove PB_FIELDINFO_WIDTH option (#473)
+ Add nanopb-specific package name option (#422)
+ Add testcase for Any type (#163)
+ Add exclude option also from .proto/.options
+ Set default include path in the grpc_tools protoc wrapper.
+ Add workaround for python-protobuf 3.6.1 bug (#478)
+ Detect invalid wire type when decoding fields.
+ Improved fuzz testing
+
+nanopb-0.4.0 (2019-12-20)
+ New field descriptor format.
+ Make nanopb_generator automatically compile .proto files (#462)
+ Allow installing as Python package from pip (#460)
+ Use protoc from grpcio-tools Python package if available (#463)
+ Change proto3 message types to be optional (#308, #452)
+ Add pb_decode_ex(), pb_encode_ex() functions.
+ Automatically rebuild nanopb_pb2.py
+ Use plugin.proto that comes with python-protobuf (#234)
+
+ Allow specifying a per-message callback. (#175)
+ Improve callback handling inside oneofs. (#175)
+
+ Introduce new compile time flag: PB_VALIDATE_UTF8 (#437)
+ Add TypenameMangling.M_PACKAGE_INITIALS (#394)
+ Introduce new compile time flag: PB_ENCODE_ARRAYS_UNPACKED (#427)
+ Add default_has option (#423)
+ Add option for including extra files from .pb.h
+ Add generator option to error out on unmatched options (#458)
+ Generator: Allow comma separated options in plugin mode (#343)
+ Allow comma-separated option parsing to handle `#include` (#450)
+ Remove timestamp from generated files by default, add -t to keep it.
+ Make --no-strip-path default (#326)
+ Fix .options file case sensitivity on Windows.
+ Fix generator error with mangle_names option (#380)
+ Take int_size setting into account in calculating message sizes (#373)
+ .gitignore: don't ignore generator-bin files (#419)
+ Cleanup .pb.h header format
+
+ Make tests run on AVR and STM32
+ Add PB_CONVERT_DOUBLE_FLOAT setting to convert doubles on AVR.
+ Store field descriptor constants in flash on AVR (#464)
+ Added "f" suffix to const float declarations. (#453)
+ Fix clang-tidy warnings about using signed integers in binary bitwise operations (#451)
+ Add C++ message descriptors helper (#384)
+ Implement conan recipe (#378)
+ CMake: Split nanopb_out command (#454)
+ CMake: install created shared library(dll) in windows to the binary folder (#447)
+
+nanopb-0.3.9.8 (2021-03-22)
+ Fix invalid free() with oneof (#647, GHSA-7mv5-5mxh-qg88)
+ Don't generate lines with trailing spaces (#622)
+ Verify stream size before allocating string / bytes (#620)
+
+nanopb-0.3.9.7 (2020-11-25)
+ Fix memory leak with oneofs and PB_ENABLE_MALLOC (#615, GHSA-85rr-4rh9-hhwh)
+ Fix unsigned enums not working correctly inside OneOf (#611)
+ Add '--version' option to nanopb_generator.py (#607)
+ SwiftPM rule updates (#567, #585)
+
+nanopb-0.3.9.6 (2020-06-23)
+ Fix buffer overflow when encoding bytes with size set to 65535 (#547, GHSA-3p39-mfxg-hrq4)
+ Fix proto3 submessage improperly considered empty (#504)
+ Fix ImportError when using generator/protoc with Python 3
+ Add build rules for Swift package manager (#549)
+
+nanopb-0.3.9.5 (2020-02-02)
+ Fix invalid free() after failed realloc() (GHSA-gcx3-7m76-287p)
+ Add workaround for avr-libc realloc() bug (#475)
+ Fix empty submessages getting encoded in proto3 mode (#395)
+ Avoid overflows in allocation for packed fields.
+
+nanopb-0.3.9.4 (2019-10-13)
+ Fix undefined behavior with bool fields (#434)
+ Fix enum min/max defines when values are not in order (#405)
+ Fix network_server socket example with zero-length strings (#421)
+ Don't call stream read callback with count=0 (#421)
+ Add compile time flag PB_ENCODE_ARRAYS_UNPACKED (#427)
+
 nanopb-0.3.9.3 (2019-03-08)
+ NOTE: nanopb-0.3.9.3.tar.gz before 2019-03-21 was accidentally from 0.4 branch (#388)
  Fix fixed size and callback repeated fields inside proto3 submessages (#376, #382, #386)
  Fix incorrect PB_STATIC_ASSERT for bytes inside oneof (#363)
  Fix generator error with mangle_names option (#380)
@@ -154,6 +336,26 @@ nanopb-0.3.0 (2014-08-26)
  Added PB_ prefix to macro names (issue 106)
  Added #if version guard to generated files (issue 129)
  Added migration document
+
+nanopb-0.2.9.5 (2020-06-23)
+ Fix buffer overflow when encoding bytes with size set to 65535 (#547, GHSA-3p39-mfxg-hrq4)
+ Backport Python 3 and protoc 3.x fixes to test cases
+
+nanopb-0.2.9.4 (2020-02-02)
+ Fix invalid free() after failed realloc() (GHSA-gcx3-7m76-287p)
+ Add workaround for avr-libc realloc() bug (#475)
+
+nanopb-0.2.9.3 (2016-06-19)
+ Protect against corrupted _count fields in pb_release (#205)
+
+nanopb-0.2.9.2 (2015-01-24)
+ Fix memory leaks with PB_ENABLE_MALLOC with some submessage hierarchies (issue 138)
+ Fix compilation error with generated initializers for repeated pointer fields
+
+nanopb-0.2.9.1 (2014-09-11)
+ Fix security issue due to size_t overflows. (issue 132)
+ Fix memory leak with duplicated fields and PB_ENABLE_MALLOC
+ Fix crash if pb_release() is called twice.
 
 nanopb-0.2.9 (2014-08-09)
  NOTE: If you are using the -e option with the generator, you have

@@ -7,23 +7,20 @@
 #include "alltypes.pb.h"
 #include "extensions.pb.h"
 #include "test_helpers.h"
-
-#define TEST(x) if (!(x)) { \
-    printf("Test " #x " failed.\n"); \
-    return 2; \
-    }
+#include "unittests.h"
 
 int main(int argc, char **argv)
 {
     uint8_t buffer[1024];
     size_t count;
     pb_istream_t stream;
+    int status = 0;
     
-    AllTypes alltypes = {0};
+    AllTypes alltypes = AllTypes_init_zero;
     int32_t extensionfield1;
-    pb_extension_t ext1;
-    ExtensionMessage extensionfield2;
-    pb_extension_t ext2;
+    pb_extension_t ext1 = pb_extension_init_zero;
+    ExtensionMessage extensionfield2 = ExtensionMessage_init_zero;
+    pb_extension_t ext2 = pb_extension_init_zero;
     
     /* Read the message data */
     SET_BINARY_MODE(stdin);
@@ -55,6 +52,6 @@ int main(int argc, char **argv)
     TEST(strcmp(extensionfield2.test1, "test") == 0)
     TEST(extensionfield2.test2 == 54321)
     
-    return 0;
+    return status;
 }
 
