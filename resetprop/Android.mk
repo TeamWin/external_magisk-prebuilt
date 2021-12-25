@@ -5,15 +5,12 @@ ifeq ($(TW_INCLUDE_RESETPROP_SOURCE), true)
     LOCAL_MODULE := resetprop
     LOCAL_MULTILIB := first
     LOCAL_SHARED_LIBRARIES := libresetprop
-    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
-        LOCAL_MODULE_TAGS := optional
-    else
-        LOCAL_MODULE_TAGS := eng
-    endif
+    LOCAL_MODULE_TAGS := optional
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/system/bin
     LOCAL_C_INCLUDES := \
         $(MAGISK_ROOT_PATH)/include \
-        $(LIBUTILS)
+        $(LIBUTILS) \
+        $(LIBUTILS)/include 
 
     LOCAL_SRC_FILES := \
         ../core/applet_stub.cpp
@@ -31,28 +28,25 @@ ifeq ($(TW_INCLUDE_LIBRESETPROP_SOURCE), true)
     LOCAL_MULTILIB := first
     LOCAL_STATIC_LIBRARIES := libnanopb libmagisksystemproperties libmagiskutils
     LOCAL_SHARED_LIBRARIES := liblog libselinux
-    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
-        LOCAL_MODULE_TAGS := optional
-    else
-        LOCAL_MODULE_TAGS := eng
-    endif
+    LOCAL_MODULE_TAGS := optional
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/system/lib64
     LOCAL_C_INCLUDES := \
+        $(MAGISK_ROOT_PATH) \
         $(MAGISK_ROOT_PATH)/include \
+        $(MAGISK_ROOT_PATH)/utils/include \
         $(LIBNANOPB) \
         $(LIBSYSTEMPROPERTIES) \
-        $(LIBUTILS)
+        $(LIBSYSTEMPROPERTIES)/include \
+        $(LIBUTILS) \
+	bionic/libc \
+	bionic/libc/include
 
     LOCAL_SRC_FILES := \
-        persist_properties.cpp \
-        resetprop.cpp \
-        system_property_api.cpp \
-        system_property_set.cpp
+	    persist.cpp \
+	    resetprop.cpp
 
     LOCAL_CFLAGS += $(MAGISK_CFLAGS)
     LOCAL_LDFLAGS := $(MAGISK_LDFLAGS)
-    ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 29; echo $$?),0)
-        LOCAL_CFLAGS += -Wno-implicit-fallthrough
-    endif
+    LOCAL_CFLAGS += -Wno-implicit-fallthrough -std=c++17
     include $(BUILD_SHARED_LIBRARY)
 endif
