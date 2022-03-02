@@ -17,6 +17,23 @@
       "message": "I haven\u0027t actually tested this",
       "revId": "c14d5c054bac710dfd9c3ed99d70c1e89fc24cfe",
       "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5283de69_60632c82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2022-03-02T17:35:43Z",
+      "side": 1,
+      "message": "Okay, tested \"Flash Current TWRP\" and working on my device without any issues.",
+      "revId": "c14d5c054bac710dfd9c3ed99d70c1e89fc24cfe",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
     }
   ]
 }
