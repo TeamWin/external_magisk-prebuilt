@@ -1,0 +1,19 @@
+cc_library_static {
+    name: "libmagisksystemproperties",
+    recovery_available: true,
+    local_include_dirs: ["include"],
+
+    static_libs: ["libc++_static"],
+    srcs: [
+        "context_node.cpp",
+        "contexts_serialized.cpp",
+        "contexts_split.cpp",
+        "prop_area.cpp",
+        "prop_info.cpp",
+        "system_properties.cpp",
+        "system_property_api.cpp",
+        "system_property_set.cpp",
+        "property_info_parser.cpp",
+    ],
+
+}

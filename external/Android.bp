@@ -1,0 +1,12 @@
+cc_library_static {
+    name: "libnanopb",
+    recovery_available: true,
+    include_dirs: [
+        "external/magisk-prebuilt/external/nanopb"
+    ],
+    srcs: [
+        "nanopb/pb_common.c",
+        "nanopb/pb_decode.c",
+        "nanopb/pb_encode.c",
+    ],
+}

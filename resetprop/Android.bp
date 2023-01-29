@@ -1,0 +1,62 @@
+MAGISK_CFLAGS = [
+    "-D__MVSTR=\"TWRP-dynamic\"",
+    "-D__MCODE=\"ed58cf9\"",
+    "-Wno-unused-parameter",
+    "-std=c++14",
+    "-Wno-sign-compare"
+]
+
+cc_binary {
+    name: "resetprop",
+    compile_multilib: "first",
+    shared_libs: ["libresetprop"],
+    recovery: true,
+
+    include_dirs: [
+        "external/magisk-prebuilt/include",
+        "external/magisk-prebuilt/utils"
+    ],
+
+    srcs: ["applet_stub.cpp"],
+
+    cflags: MAGISK_CFLAGS + [
+        "-DAPPLET_STUB_MAIN=resetprop_main",
+    ],
+}
+
+cc_library {
+    name: "libresetprop",
+    compile_multilib: "first",
+    recovery_available: true,
+
+    static_libs: [
+        "libnanopb",
+        "libmagisksystemproperties",
+        "libmagiskutils",
+    ],
+    shared_libs: [
+        "liblog",
+        "libselinux",
+    ],
+
+    include_dirs: [
+        "external/magisk-prebuilt/",
+        "external/magisk-prebuilt/include",
+        "external/magisk-prebuilt/utils/include",
+        "external/magisk-prebuilt/external/nanopb",
+        "external/magisk-prebuilt/systemproperties/include",
+        "external/magisk-prebuilt/utils",
+        "bionic/libc",
+        "bionic/libc/include",
+    ],
+
+    srcs: [
+        "persist.cpp",
+        "resetprop.cpp",
+    ],
+
+    cflags: MAGISK_CFLAGS + [
+        "-Wno-implicit-fallthrough",
+        "-std=c++17",
+    ]
+}
