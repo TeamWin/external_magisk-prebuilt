@@ -1,0 +1,37 @@
+cc_prebuilt_binary {
+    name: "magiskboot",
+    recovery: true,
+    arch: {
+        arm: {
+            srcs: ["magiskboot_arm"],
+        },
+        arm64: {
+            srcs: ["magiskboot_arm"],
+        },
+        x86: {
+            srcs: ["magiskboot_x86"],
+        },
+        x86_64: {
+            srcs: ["magiskboot_x86"],
+        }
+    }
+}
+
+cc_prebuilt_binary {
+    name: "resetprop",
+    recovery: true,
+    arch: {
+        arm: {
+            srcs: ["resetprop_arm"],
+        },
+        arm64: {
+            srcs: ["resetprop_arm"],
+        },
+        x86: {
+            srcs: ["resetprop_x86"],
+        },
+        x86_64: {
+            srcs: ["resetprop_x86"],
+        }
+    }
+}
