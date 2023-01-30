@@ -16,6 +16,24 @@
       "message": "This is on the wrong branch",
       "revId": "ce6f8ce71687b935dafdbfad84a8df050caff64e",
       "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de00dd71_3c0d0dfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 124
+      },
+      "writtenOn": "2023-01-30T13:20:42Z",
+      "side": 1,
+      "message": "12.1 isn\u0027t showing in gerrit",
+      "parentUuid": "3bf68c48_932d6a1f",
+      "revId": "ce6f8ce71687b935dafdbfad84a8df050caff64e",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
     }
   ]
 }
