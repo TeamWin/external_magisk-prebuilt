@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66a107af_c5fff983",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2023-07-19T15:32:41Z",
+      "side": 1,
+      "message": "Pretty sure we\u0027re intentionally only including the 32-bit binaries to save space, since they work fine on both arches. Is there some reason this is needed?",
+      "revId": "656fa7becc9af136bd437ed97bcddcc56f51651e",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    }
+  ]
+}
