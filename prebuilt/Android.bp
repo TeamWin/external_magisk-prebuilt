@@ -6,13 +6,13 @@ cc_prebuilt_binary {
             srcs: ["magiskboot_arm"],
         },
         arm64: {
-            srcs: ["magiskboot_arm"],
+            srcs: ["magiskboot_arm64"],
         },
         x86: {
             srcs: ["magiskboot_x86"],
         },
         x86_64: {
-            srcs: ["magiskboot_x86"],
+            srcs: ["magiskboot_x86_64"],
         }
     }
 }
