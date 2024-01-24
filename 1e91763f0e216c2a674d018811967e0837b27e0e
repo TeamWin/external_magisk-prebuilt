@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb68ea5_add4ee7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2024-01-24T21:30:16Z",
+      "side": 1,
+      "message": "Working fine here. This is needed for the twrpRepacker update.",
+      "revId": "1e91763f0e216c2a674d018811967e0837b27e0e",
+      "serverId": "9c1c7d72-6534-4d44-b0ea-39f63e804833"
+    }
+  ]
+}
